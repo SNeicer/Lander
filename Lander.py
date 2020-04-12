@@ -45,6 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.vy = FallSpeed
         self.OxygenTimer = 3
         self.hited = 0
+        self.oneTimeCheck = 0
 
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)
@@ -54,6 +55,11 @@ class Player(pygame.sprite.Sprite):
         elif self.rect.y >= 600:
             self.hited = 1
             self.vy = 0
+            if self.oneTimeCheck == 0:
+                self.rect.y += 35
+                self.oneTimeCheck = 1
+            else:
+                pass
             self.image = Player.dead
         elif self.hited == 2:
             global Score
@@ -150,10 +156,6 @@ while running:
             PlayerMain.OxygenTimer -= 1
 
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-            Plat.rect.x = random.randint(20, 1000)
-            PlayerMain.rect.x = random.randint(20, 1000)
-            PlayerMain.rect.y = 40
 
         if event.type == pygame.QUIT:
             running = False
